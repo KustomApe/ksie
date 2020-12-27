@@ -1,6 +1,7 @@
 from selenium import webdriver
 import pandas as pd
 import time
+import datetime
 
 """[注意事項]
 robot.txtを必ず読んで、ルールに沿った形でクローリングするように気をつけてください。
@@ -15,55 +16,36 @@ options.add_argument('--headeless')
 options.add_argument('--disable-gpu')
 options.add_argument('--lang-ja')
 browser = webdriver.Chrome(chrome_options=options, executable_path='./chromedriver')
-df = pd.DataFrame(columns=['name', 'image', 'price', 'category', 'car'])
-url = 'https://motorz-garage.com/parts/'
+df = pd.DataFrame(columns=['ranking', 'name'])
+url = 'https://swsh.pokedb.tokyo/pokemon/list/'
+url_single = 'https://swsh.pokedb.tokyo/pokemon/list?season=13&rule=1'
+# url_double
 
 """[CSS Selector Setting]
 CSSセレクターの設定
 """
-PAGER_NEXT = "li.select-page.arrow a[rel='next']"
-POSTS = ".product-item-list__item"
-PRODUCT_NAME = ".product-item-list__item-name"
-IMAGE = ".product-item-list__item-image img"
-PRICE = ".product-item-list__item-price"
-CATEGORY = ".product-item-list__item-category"
-CAR = ".product-item-list__item-car-name"
+COLUMNS = ".column"
+RANKING = ".pokemon-ranking-rank"
+NAME = ".pokemon-ranking-name"
+
 
 """[Activate Section]
 実行部分
 """
 browser.get(url)
-
-while True: #Continue until getting the last page.
-    if len(browser.find_elements_by_css_selector(PAGER_NEXT)) > 0:
-        print('Starting to get posts...')
-        posts = browser.find_elements_by_css_selector(POSTS)
-        print(len(posts))
-        for post in posts:
-            try:
-                name = post.find_element_by_css_selector(PRODUCT_NAME).text
-                print(name)
-                thumbnailURL = post.find_element_by_css_selector(IMAGE).get_attribute('src')
-                print(thumbnailURL)
-                price = post.find_element_by_css_selector(PRICE).text
-                print(price)
-                category = post.find_element_by_css_selector(CATEGORY).text
-                print(category)
-                car = post.find_element_by_css_selector(CAR).text
-                print(car)
-                se = pd.Series([name, thumbnailURL, price, category, car], ['name', 'image', 'price', 'category', 'car'])
-                df = df.append(se, ignore_index=True)
-            except  Exception as e:
-                print(e)
-        btn = browser.find_element_by_css_selector(PAGER_NEXT).get_attribute('href')
-        print('next url:{}'.format(btn))
-        time.sleep(3)
-        browser.get(btn)
-        print('Moving to next page.')
-    else:
-        print('No pager exist anymore...')
-        break
-
-print('Finished Crawling. Writing out to CSV file...')
-df.to_csv('car_parts.csv')
+print('Starting to get posts...')
+items = browser.find_elements_by_css_selector(COLUMNS)
+print(len(items))
+for post in items:
+    try:
+        ranking = post.find_element_by_css_selector(RANKING).text
+        print(ranking)
+        name = post.find_element_by_css_selector(NAME).text
+        print(name)
+        se = pd.Series([ranking, name], ['ranking', 'name'])
+        df = df.append(se, ignore_index=True)
+    except  Exception as e:
+        print(e)
+print('Finish crawling pokemons.')
+df.to_csv('pokemons_december.csv')
 print('Done')
