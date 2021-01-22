@@ -209,8 +209,8 @@ function pokemonLists() {
     for (let key in pokemons) {
         console.log(key + '位は' + pokemons[key]);
     };
-    // para = document.getElementById('pokemon_rank');
-    // para.innerHTML = pokemons;
+    para = document.getElementById('pokemon_rank');
+    para.innerHTML = pokemon[random];
 };
 
 function pickPokemon() {

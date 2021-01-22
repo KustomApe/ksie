@@ -12,48 +12,46 @@
     <h1>ポケモン占い</h1>
     <h2>好きなタイプ</h2>
     <form id="type_form" action="#" name="type_form">
-        <input type="checkbox" id="01-A" name="types" value="ノ">
+        <input type="checkbox" id="01-A" name="types">
         <label for="01-A" class="types">ノ</label>
-        <input type="checkbox" id="02-A" name="types" value="炎">
-        <label for="02-A" class="types">炎</label>
-        <input type="checkbox" id="03-A" name="types" value="水">
+        <input type="checkbox" id="02-A" name="types">
+        <label for="02-A" class="types">ノ炎</label>
+        <input type="checkbox" id="03-A" name="types">
         <label for="03-A" class="types">水</label>
-        <input type="checkbox" id="04-A" name="types" value="電">
+        <input type="checkbox" id="04-A" name="types">
         <label for="04-A" class="types">電</label>
-        <input type="checkbox" id="05-A" name="types" value="草">
+        <input type="checkbox" id="05-A" name="types">
         <label for="05-A" class="types">草</label>
-        <input type="checkbox" id="06-A" name="types" value="氷">
+        <input type="checkbox" id="06-A" name="types">
         <label for="06-A" class="types">氷</label>
-        <input type="checkbox" id="07-A" name="types" value="格">
+        <input type="checkbox" id="07-A" name="types">
         <label for="07-A" class="types">格</label>
-        <input type="checkbox" id="08-A" name="types" value="毒">
+        <input type="checkbox" id="08-A" name="types">
         <label for="08-A" class="types">毒</label>
-        <input type="checkbox" id="09-A" name="types" value="地">
+        <input type="checkbox" id="09-A" name="types">
         <label for="09-A" class="types">地</label>
-        <input type="checkbox" id="10-A" name="types" value="飛">
+        <input type="checkbox" id="10-A" name="types">
         <label for="10-A" class="types">飛</label>
-        <input type="checkbox" id="11-A" name="types" value="超">
+        <input type="checkbox" id="11-A" name="types">
         <label for="11-A" class="types">超</label>
-        <input type="checkbox" id="12-A" name="types" value="虫">
+        <input type="checkbox" id="12-A" name="types">
         <label for="12-A" class="types">虫</label>
-        <input type="checkbox" id="13-A" name="types" value="岩">
+        <input type="checkbox" id="13-A" name="types">
         <label for="13-A" class="types">岩</label>
-        <input type="checkbox" id="14-A" name="types" value="霊">
+        <input type="checkbox" id="14-A" name="types">
         <label for="14-A" class="types">霊</label>
-        <input type="checkbox" id="15-A" name="types" value="竜">
+        <input type="checkbox" id="15-A" name="types">
         <label for="15-A" class="types">竜</label>
-        <input type="checkbox" id="16-A" name="types" value="鋼">
+        <input type="checkbox" id="16-A" name="types">
         <label for="16-A" class="types">鋼</label>
-        <input type="checkbox" id="17-A" name="types" value="妖">
+        <input type="checkbox" id="17-A" name="types">
         <label for="17-A" class="types">妖</label>
-        <input type="button" onClick="taipu()" value="決定">
+        <input type="button" onclick="taipu()" value="占う">
     </form>
-    <form><input type="button" onClick="pokemonLists()" value="ランク確認"></form>
-    <p id='pokemon_rank'></p>
     <p>選択したポケモンのタイプ：<span id="display_types"></span></p>
     <h2>好きなポケモン</h2>
     <p><a href="./select_pokemon.html">好きなポケモンを選ぶ</a></p>
-    <form><input type="button" value="自動で選ぶ" onClick="pickPokemon()"></form>
+    <form><input type="button" value="自動で選ぶ" onClick="uranai()"></form>
     <p id='pokemon_elect'></p>
     <button>シングル</button>
     <button>ダブル</button>

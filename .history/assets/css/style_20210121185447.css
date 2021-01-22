@@ -1,0 +1,45 @@
+@charset "utf-8";
+
+body {
+    display: block;
+    margin: 0 auto;
+    width: 1080px;
+}
+
+div#wrap {
+    display: block;
+    margin: 0 auto;
+    width: 1080px;
+}
+
+h1 {
+    color: red;
+    font-size: 15px;
+}
+
+h2 {
+    color: blue;
+    font-size: large;
+}
+
+ul.taipu {
+    margin: 100px;
+}
+
+ul.taipu li {
+    display: block;
+    list-style: none;
+    float: left;
+    width: 105px;
+    border: solid 1px #333333;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #e9dfe5;
+    text-align: center;
+}
+
+.clearfix::after {
+    content: "";
+    display: block;
+    clear: both;
+}

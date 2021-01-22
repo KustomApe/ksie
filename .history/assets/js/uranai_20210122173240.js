@@ -206,7 +206,11 @@ function taipu() {
 };
 
 function pokemonLists() {
+    const pokemonRank = [];
+    para = document.getElementById('pokemon_rank');
     for (let key in pokemons) {
+        para = document.getElementById('pokemon_rank');
+        para.innerHTML = key + '位は' + pokemons[key];
         console.log(key + '位は' + pokemons[key]);
     };
     // para = document.getElementById('pokemon_rank');

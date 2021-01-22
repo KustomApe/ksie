@@ -57,7 +57,7 @@ input[type=checkbox] {
     display: inline-block;
     padding: 5px 30px;
     position: relative;
-    width: 11rem;
+    width: 10rem;
 }
 .types::before {
     background: #fff;
@@ -72,8 +72,8 @@ input[type=checkbox] {
     width: 16px;
 }
 .types::after {
-    border-right: 3px solid red;
-    border-bottom: 3px solid red;
+    border-right: 3px solid #ed7a9c;
+    border-bottom: 3px solid #ed7a9c;
     content: '';
     display: block;
     height: 9px;

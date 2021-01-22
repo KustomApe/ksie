@@ -208,9 +208,7 @@ function taipu() {
 function pokemonLists() {
     for (let key in pokemons) {
         console.log(key + '位は' + pokemons[key]);
-    };
-    // para = document.getElementById('pokemon_rank');
-    // para.innerHTML = pokemons;
+    }
 };
 
 function pickPokemon() {
@@ -220,6 +218,4 @@ function pickPokemon() {
     }
     const random = Math.floor(Math.random() * pokemon.length);
     console.log(pokemon[random]);
-    para = document.getElementById('pokemon_elect');
-    para.innerHTML = pokemon[random];
 };

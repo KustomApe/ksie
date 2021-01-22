@@ -206,6 +206,7 @@ function taipu() {
 };
 
 function pokemonLists() {
+    const pokemonRank = [];
     for (let key in pokemons) {
         console.log(key + '位は' + pokemons[key]);
     };

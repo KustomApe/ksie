@@ -45,19 +45,13 @@ input[type=checkbox] {
     display: none;
 }
 .types {
-    margin: 10px;
-    list-style: none;
-    width: 105px;
-    border: solid 1px #333333;
-    border-radius: 5px;
-    padding: 5px;
-    background-color: #e9dfe5;
     box-sizing: border-box;
     cursor: pointer;
     display: inline-block;
     padding: 5px 30px;
     position: relative;
-    width: 11rem;
+    width: 100%;
+    background: red;
 }
 .types::before {
     background: #fff;
@@ -72,8 +66,8 @@ input[type=checkbox] {
     width: 16px;
 }
 .types::after {
-    border-right: 3px solid red;
-    border-bottom: 3px solid red;
+    border-right: 3px solid #ed7a9c;
+    border-bottom: 3px solid #ed7a9c;
     content: '';
     display: block;
     height: 9px;
