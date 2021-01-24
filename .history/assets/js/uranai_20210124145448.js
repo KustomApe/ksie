@@ -203,8 +203,6 @@ function taipu() {
     // 該当するポケモンが4体以上150位以内の中にいた場合は占う
     // 3体以下なら警告を出す
     // console.log("ポケモンゲットだぜ！")
-
-    document.getElementById("display_types").textContent = arrType;
 };
 
 function pokemonLists() {

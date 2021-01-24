@@ -190,9 +190,13 @@ function taipu() {
     const arrTtype = [];
     const types = document.type_form.types;
 
+
+    const arrType = [];
+    const types = document.type_form.types;
+
     for (let i = 0; i < types.length; i++) {
         if(types[i].checked) {
-            arrType.push(" " + types[i].value)
+            arrType.push(" " + types[i].value);
         }
     }
     console.log(arrType)
@@ -203,8 +207,6 @@ function taipu() {
     // 該当するポケモンが4体以上150位以内の中にいた場合は占う
     // 3体以下なら警告を出す
     // console.log("ポケモンゲットだぜ！")
-
-    document.getElementById("display_types").textContent = arrType;
 };
 
 function pokemonLists() {
