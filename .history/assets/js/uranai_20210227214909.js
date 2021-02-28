@@ -192,7 +192,7 @@ function taipu() {
 
     for (let i = 0; i < types.length; i++) {
         if(types[i].checked) {
-            arrType.push(" " + types[i].value);
+            arrType.push(" " + types[i].value)
         }
     }
     console.log(arrType)
@@ -203,13 +203,12 @@ function taipu() {
     // 該当するポケモンが4体以上150位以内の中にいた場合は占う
     // 3体以下なら警告を出す
     // console.log("ポケモンゲットだぜ！")
+
+    document.getElementById("display_types").textContent = arrType;
 };
 
 function pokemonLists() {
-    const pokemonRank = [];
-    para = document.getElementById('pokemon_rank');
     for (let key in pokemons) {
-        para.innerHTML = key + '位は' + pokemons[key];
         console.log(key + '位は' + pokemons[key]);
     };
     // para = document.getElementById('pokemon_rank');

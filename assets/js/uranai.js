@@ -187,7 +187,7 @@ function uranai() {
 };
 
 function taipu() {
-    const arrTtype = [];
+    const arrType = [];
     const types = document.type_form.types;
 
     for (let i = 0; i < types.length; i++) {
