@@ -206,6 +206,7 @@ function pickSinglePokemon() {
 function pickDoublePokemon() {
     const arrDouble = ['実装予定', 'お楽しみに！'];
     doubleResult = arrDouble[Math.floor(Math.random() * arrDouble.length)]
+    doubleResult = arrDouble;
     document.getElementById('doublePokemon').textContent = doubleResult;
 };
 

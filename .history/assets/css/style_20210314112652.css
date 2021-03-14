@@ -65,7 +65,7 @@ input[type=checkbox] {
 }
 .types::before {
     background: #fff;
-    border: 1px solid #dddddd;
+    border: 1px solid #231815;
     content: '';
     display: block;
     height: 16px;

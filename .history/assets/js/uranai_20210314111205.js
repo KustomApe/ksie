@@ -204,8 +204,12 @@ function pickSinglePokemon() {
 };
 
 function pickDoublePokemon() {
-    const arrDouble = ['実装予定', 'お楽しみに！'];
-    doubleResult = arrDouble[Math.floor(Math.random() * arrDouble.length)]
+    const arrDouble = ['実装予定'];
+    // for (let key in pokemons) {
+    //     arrSingle.push(pokemons[key]);
+    // };
+    // doubleResult = arrSingle[Math.floor(Math.random() * arrSingle.length)]
+    doubleResult = arrDouble;
     document.getElementById('doublePokemon').textContent = doubleResult;
 };
 

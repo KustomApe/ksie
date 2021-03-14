@@ -31,12 +31,22 @@ h1 {
 
 h2 {
     color: #7f7fff;
-    font-size: 2rem;
+    font-size: large;
 }
 
 ul.taipu {
     margin: 100px;
 }
+
+/* ul.taipu li {
+    margin: 10px;
+    list-style: none;
+    float: left;
+    width: 105px;
+    border: solid 1px #333333;
+    border-radius: 5px;
+    padding: 5px;
+    /* background-color: #e9dfe5; */
 
 label {
     display: block;
@@ -50,7 +60,7 @@ input[type=checkbox] {
     margin: 10px;
     list-style: none;
     width: 105px;
-    border: solid 1px #dddddd;
+    border: solid 1px #333333;
     border-radius: 5px;
     padding: 5px;
     background-color: #8484ff;
@@ -65,7 +75,7 @@ input[type=checkbox] {
 }
 .types::before {
     background: #fff;
-    border: 1px solid #dddddd;
+    border: 1px solid #231815;
     content: '';
     display: block;
     height: 16px;

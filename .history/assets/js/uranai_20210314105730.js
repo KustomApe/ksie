@@ -198,20 +198,14 @@ function pickSinglePokemon() {
     const arrSingle = [];
     for (let key in pokemons) {
         arrSingle.push(pokemons[key]);
+        console.log(arrSingle);
     };
-    singleResult = arrSingle[Math.floor(Math.random() * arrSingle.length)];
-    document.getElementById('singlePokemon').textContent = singleResult;
-};
-
-function pickDoublePokemon() {
-    const arrDouble = ['実装予定', 'お楽しみに！'];
-    doubleResult = arrDouble[Math.floor(Math.random() * arrDouble.length)]
-    document.getElementById('doublePokemon').textContent = doubleResult;
 };
 
 function hideList() {
     const btn = document.getElementById('rank');
     if(btn.style.display=='block'){
+        console.log('Working');
         btn.style.display = 'none';
     }
 }

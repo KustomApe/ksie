@@ -199,14 +199,13 @@ function pickSinglePokemon() {
     for (let key in pokemons) {
         arrSingle.push(pokemons[key]);
     };
-    singleResult = arrSingle[Math.floor(Math.random() * arrSingle.length)];
-    document.getElementById('singlePokemon').textContent = singleResult;
-};
-
-function pickDoublePokemon() {
-    const arrDouble = ['実装予定', 'お楽しみに！'];
-    doubleResult = arrDouble[Math.floor(Math.random() * arrDouble.length)]
-    document.getElementById('doublePokemon').textContent = doubleResult;
+    singleResult = arrSingle[Math.floor(Math.random() * arrSingle.length)]
+    p = document.createElement('p');
+    p.textContent = singleResult;
+    p.idName += 'singlePokemon';
+    document.getElementById('singlePokemon');
+    document.getElementById('singlePokemon').textContent = singleResult
+    console.log(singleResult)
 };
 
 function hideList() {

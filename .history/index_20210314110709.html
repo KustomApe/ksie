@@ -9,12 +9,11 @@
 </head>
 <body>
     <header>
-        <h1 id="header"><img src="./assets/img/header.png" alt="ポケモン占い"></h1>
+        <h1 id="header"><img src="./assets/img/header.jpg" alt="ポケモン占い"></h1>
     </header>
     <div id="wrap">
     <h2>STEP：1 - 好きなタイプを選ぶ</h2>
     <form><input type="button" onClick="pokemonLists()" value="ランクを確認する"></form>
-    <br />
     <form><input type="button" onClick="hideList()" value="ランクを隠す"></form>
     <ul id="rank">ランキング：
         <li id="display_ranking"></li><br />
@@ -57,19 +56,19 @@
         <label for="17-A" class="types">鋼</label>
         <input type="checkbox" id="18-A" name="types" value="妖">
         <label for="18-A" class="types">妖</label>
-        <br />
-        <br />
         <input type="button" onClick="taipu()" value="決定">
     </form>
     <p id='pokemon_rank'></p>
     <p>選択したポケモンのタイプ：<span id="display_types"></span></p>
     <h2>好きなポケモン</h2>
+    <p><a href="./select_pokemon.html">ポケモンを選ぶ</a></p>
     <form><input type="button" value="自動で選ぶ" onClick="pickPokemon()"></form>
-    <p>自動で選んだ結果はこれだ！：<span id='pokemon_elect'></span></p>
+    <p id='pokemon_elect'></p>
     <form><input type="button" value="シングル" onClick="pickSinglePokemon()"></form>
-    <p>シングルの一体目はこれだ！：<span id='singlePokemon'></span></p>
+    <p id='singlePokemon'><span id='singlePokemon'></span></p>
     <form><input type="button" value="ダブル" onClick="pickDoublePokemon()"></form>
-    <p>ダブルの一体目はこれだ！：<span id='doublePokemon'></span></p>
+    <p id='doublePokemon'></p>
+    <h2>2体目からは自分で選ぼう</h2>
 </div>
 </body>
 </html>
