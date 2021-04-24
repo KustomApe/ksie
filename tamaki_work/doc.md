@@ -1,0 +1,10 @@
+# Tamaki Work
+
+## JavaScriptでクローラーを作る
+
+## 9月までにポケモン占いサイトとクローラーを連結する
+
+## Todo
+
+- HTML/CSSの概念
+- JavaScriptの基礎
