@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+div {
+    width: 600px;
+    margin: auto;
+}
+
+input {
+    margin-left: 140px;
+}
+
+li:nth-child(odd) {
+    background: url("img/girl.png");
+    width: 380px;
+    height: 21px;
+    padding: 20px 110px;
+}
