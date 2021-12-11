@@ -1,0 +1,11 @@
+@charset "utf-8";
+
+body {
+    width: 100%;
+    max-width: 1920px;
+}
+
+h1#main_title {
+    color: #333;
+    font-size: 2rem;
+}
