@@ -12,3 +12,13 @@ let addMessage = (mes) => {
     list.innerHTML += '<li>' + mes + '</li>';
 };
 
+addMessage('ハロー！');
+addMessage('ワールド！');
+addMessage(quiz[0][0]);
+
+let btn = document.querySelector('button');
+btn.addEventListener('click', () => {
+    let ipt = document.querySelector('input');
+    addMessage(ipt.value);
+    console.log('クリックされた！');
+});

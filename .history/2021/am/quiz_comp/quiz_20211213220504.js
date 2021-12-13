@@ -12,3 +12,13 @@ let addMessage = (mes) => {
     list.innerHTML += '<li>' + mes + '</li>';
 };
 
+let btn = document.querySelector('button');
+btn.addEventListener('click', () => {
+    let ipt = document.querySelector('input');
+    addMessage(ipt.value);
+    if(ipt.value == quiz[0][1]) {
+        addMessage('アタリ！');
+    } else {
+        addMessage('ハズレ！');
+    }
+});

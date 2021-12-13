@@ -12,3 +12,5 @@ let addMessage = (mes) => {
     list.innerHTML += '<li>' + mes + '</li>';
 };
 
+addMessage('ハロー！')
+addMessage('')
