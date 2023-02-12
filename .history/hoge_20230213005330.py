@@ -11,5 +11,3 @@ d2 = {'k3' : 3, 'k4' : 4}
 
 d = {**d1, **d2}
 print(d)
-print(d1)
-print(d2)

@@ -3,7 +3,7 @@
 // 14時20分まで休憩
 
 // 比較演算子
-// || &&
+|| &&
 // hoge fuga , foo bar
 
 function hoge(a, b) {
