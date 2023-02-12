@@ -1,0 +1,31 @@
+.main {
+    width: 1420px;
+    height: 800px;
+    text-align: center;
+    justify-content: center;
+}
+
+.h1 {
+    color: white;
+}
+
+/* ボタンのサイズを変える時はwidth（幅）、paddingを指定　*/
+.button {
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.drawInfo {
+    /* 自動で直下の要素を並列にしてくれる */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+
+/* すしだ */
+
+.body {
+    justify-content: center;
+}

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="tetris.css" type="text/css" />
+    <title>簡易テトリス</title>
+</head>
+
+<body>
+    <div class="main">
+        <h1>
+            <div>TETRIS OF OSAKANA</div>
+        </h1>
+        <div class="drawInfo">
+            <div>スコア：</div>
+            <div id="score-count">0</div>
+            <!-- どうしてもここに空白が入らないので力技 -->
+            <div>　</div>
+            <div>消したライン数：</div>
+            <div id="line-count">0</div>
+        </div>
+        <div class="button">
+            <span class="start-button" id="start-button">
+                <button type="button" id="text">START</button>
+            </span>
+            <span class="stop-button" id="stop-button">
+                <button type="button" id="action"> STOP </button>
+            </span>
+        </div></br>
+        <canvas id="canvasId"></canvas>
+        <script>
+            //---------------------- 定数部 --------------------------
+            //フィールドサイズ
+            const FIELD_YOKO = 10;
+            const FIELD_TATE = 20;
+
+            //フィールドの配列を1次元配列として定義（フィールドを初期化部分で使用）
+            let field = [];
+
+            //ブロック一つのサイズ（ピクセル）
+            const BLOCK_SIZE = 30;
+
+            //テトロミノのサイズ
+            const TETROMINO_SIZE = 4;
+
+            //テトロミノの定義
+            const TETROMINO_TYPES = [
+                //空
+                [],
+                //I
+                [
+                    [1, 1, 1, 1],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0]
+                ],
+                //L
+                [
+                    [0, 1, 0, 0],
+                    [0, 1, 0, 0],
+                    [0, 1, 1, 0],
+                    [0, 0, 0, 0]
+                ],
+                //J
+                [
+                    [0, 0, 1, 0],
+                    [0, 0, 1, 0],
+                    [0, 1, 1, 0],
+                    [0, 0, 0, 0]
+                ],
+                //T
+                [
+                    [0, 1, 0, 0],
+                    [0, 1, 1, 0],
+                    [0, 1, 0, 0],
+                    [0, 0, 0, 0]
+                ],
+                //O
+                [
+                    [0, 1, 1, 0],
+                    [0, 1, 1, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0]
+                ],
+                //Z
+                [
+                    [1, 1, 0, 0],
+                    [0, 1, 1, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0]
+                ],
+                //S
+                [
+                    [0, 1, 1, 0],
+                    [1, 1, 0, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0]
+                ]
+            ]
+
+            //テトロミノ本体
+            let tetromino;
+            //テトロミノの形
+            let tetrominoType;
+            //テトロミノの形をランダムで決める
+            tetrominoType = Math.floor(Math.random() * (TETROMINO_TYPES.length - 1)) + 1;
+            tetromino = TETROMINO_TYPES[tetrominoType];
+
+            //テトロミノが落ち始める座標
+            const START_X = FIELD_YOKO / 2 - TETROMINO_SIZE / 2;
+            const START_Y = 0;
+
+            //テトロミノに座標を持たせる(キーボード押下処理で座標が必要になるため)
+            let tetromino_x = START_X;
+            let tetromino_y = START_Y;
+
+            //テトロミノの色
+            const TETROMINO_COLORS = [
+                "",
+                "#FF1493",
+                "#FF69B4",
+                "#FF00FF",
+                "#C71585",
+                "#FF367F",
+                "#EE82EE",
+                "#CC0099"
+            ]
+
+            //キャンバス用意
+            //キャンバスのサイズ = ブロック一つのサイズ × フィールドサイズ
+            const CANVAS_SIZE_YOKO = BLOCK_SIZE * FIELD_YOKO;
+            const CANVAS_SIZE_TATE = BLOCK_SIZE * FIELD_TATE;
+            let canvasId = document.getElementById("canvasId");
+            let conText = canvasId.getContext("2d");
+            canvasId.width = CANVAS_SIZE_YOKO;
+            canvasId.height = CANVAS_SIZE_TATE;
+            canvasId.style.border = "4px solid #555";
+
+            //テトロミノが落ちる速度
+            const DROP_SPEED = 500;
+            let gameOverFlg = false;
+            //消したライン数
+            let lineCount = 0;
+            //スコア計算結果
+            let result = 0;
+
+            //setInterval、clearIntervalで使用
+            var interval;
+            //ストップボタン実装で使用
+            var repeatFlg = true;
+
+            //---------------------- 実行部 --------------------------
+
+            document.getElementById("start-button").onclick = function () {
+                //スタートボタン押された時にも念の為初期化を行う
+                field = [];
+                tetromino_x = START_X;
+                tetromino_y = START_Y;
+
+                /*
+                2回目以降スタート押した時にスコアが前のスコアのままになってしまうので、
+                スタートボタンが押された時点で、初期化したものをhtmlに渡す
+                */
+                lineCount = 0;
+                result = 0;
+                document.getElementById('score-count').innerHTML = result;
+                document.getElementById('line-count').innerHTML = lineCount;
+
+                if (gameOverFlg) {
+                    gameOverFlg = false;
+                }
+
+                init();
+                onClearInterval();
+                onSetInterval();
+                drawField();
+                drawTetromino();
+            }
+
+            //ストップボタン押されたときの処理を行う関数の呼び出し
+            document.getElementById("stop-button").onclick = function () {
+                onStopButton();
+            }
+
+            /*
+            setInterval内で呼び出されるdropTetromino内でフィールドを使用するのだが、ページを更新した時には
+            まだフィールドに値が詰められていない状態のため、init呼び出す必要ある（initでフィールドにはじめて値入るので）
+            */
+            init();
+
+            //---------------------- 関数部 --------------------------
+
+            //フィールドを初期化
+            function init() {
+                for (let y = 0; y < FIELD_TATE; y++) {
+                    field[y] = [];
+                    for (let x = 0; x < FIELD_YOKO; x++) {
+                        field[y][x] = 0;
+                    }
+                }
+
+                //テスト(試しにただのブロックを置いてみる)
+                //field[5][8] = 1;
+            }
+
+            //setIntervalを動かす関数
+            function onSetInterval() {
+                interval = setInterval(dropTetromino, DROP_SPEED);
+            }
+
+            //clearIntervalを動かす関数
+            function onClearInterval() {
+                clearInterval(interval);
+            }
+
+            //一時停止ボタン押下時の処理を行う関数
+            function onStopButton() {
+                if (repeatFlg) {
+                    onClearInterval();
+                    document.getElementById('action').innerHTML = 'RESTART';
+                    repeatFlg = false;
+
+                } else {
+                    //ここにクリア入れないとボタン押下2回目以降速くなってしまう
+                    onClearInterval();
+                    onSetInterval();
+                    document.getElementById('action').innerHTML = ' STOP ';
+                    repeatFlg = true;
+                }
+            }
+
+            //ブロック一つを描画する関数
+            function drawBlock(x, y, ransu) {
+                //新しい座標を定義
+                let px = x * BLOCK_SIZE;
+                let py = y * BLOCK_SIZE;
+
+                if (!ransu == 0) {
+                    //塗りつぶしの四角を描画
+                    //配列TETROMINO_COLORSの[乱数番目]を指定することでテトロミノの形ごとの色が毎回統一される
+                    conText.fillStyle = TETROMINO_COLORS[ransu];
+                    conText.fillRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
+                }
+
+                //輪郭の四角を描画
+                conText.strokeStyle = "black";
+                /*
+                2回目以降テトロミノの枠線が太くなってしまうのは、
+                フィールドの太い線が引き継がれてしまっていたことが原因だったのでlineWidthを指定
+                */
+                conText.lineWidth = 2;
+                conText.strokeRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
+            }
+
+            //フィールド（ブロック）を描画する関数
+            function drawField() {
+                //描画前に移動前の描画をクリア
+                conText.clearRect(0, 0, CANVAS_SIZE_YOKO, CANVAS_SIZE_TATE);
+                for (let y = 0; y < FIELD_TATE; y++) {
+                    for (let x = 0; x < FIELD_YOKO; x++) {
+                        //field[y][x]が1のときにブロックを描画
+                        if (field[y][x]) {
+                            /*
+                            この第3引数にfield[y][x]を入れているのは、
+                            テトロミノ固定後に諸々初期化されるが色情報は引き継がれるため、
+                            field[y][x]は色情報を引き継いでいるため指定している
+                            */
+                            drawBlock(x, y, field[y][x]);
+                        }
+                    }
+                }
+            }
+
+            //テトロミノを描画する関数
+            function drawTetromino() {
+
+                //着地点の計算
+                let plus = 0;
+                /*
+                Y座標が移動できなくなるところまでplusをカウントアップ（shiftキー実装時と同じ要領）
+                plus + 1してるのは一つ下の段を調べたいから
+                */
+                while (checkMove(0, plus + 1)) plus++;
+
+                //テトロミノの中身をチェック
+                //配列をチェック
+                for (let y = 0; y < TETROMINO_SIZE; y++) {
+                    for (let x = 0; x < TETROMINO_SIZE; x++) {
+                        if (tetromino[y][x]) {
+                            //本体
+                            drawBlock(tetromino_x + x, tetromino_y + y, tetrominoType);
+
+                            //着地点
+                            /*
+                            （tetromino_x + x, tetromino_y + y）　はテトロミノが表示される座標
+                            予測マスには色つける必要がないので、etrominoTypeランダムにせず、固定で空の「0」を渡す
+                            このplus分が、現在のテトロミノと表示先のテトロミノのY座標の差になる
+                            */
+                            drawBlock(tetromino_x + x, tetromino_y + y + plus, 0);
+                        }
+                    }
+                }
+            }
+
+            //移動できるかチェックを行う関数
+            /*
+            フィールド範囲を超えている場合と、テトロミノがフィールドブロックと同じ位置にあったらfalseを返す
+            キーボード押下時の処理で呼び出し時に引数に渡していた移動先の座標をmx、myとして受け取り
+            */
+            function checkMove(mx, my, newTetromino) {
+                /*
+                checkMove呼び出し時に渡ってくる引数の値の数が足りないものを絞る（スペースキー以外）
+                スペースキー以外ならnewTetrominoに現在のテトロミノを詰める
+                */
+                if (newTetromino == undefined) newTetromino = tetromino;
+                for (let y = 0; y < TETROMINO_SIZE; y++) {
+                    for (let x = 0; x < TETROMINO_SIZE; x++) {
+                        if (newTetromino[y][x]) {
+                            //テトロミノ描画の座標に移動後の座標を足す
+                            let nx = mx + tetromino_x + x;
+                            let ny = my + tetromino_y + y;
+                            if (nx < 0
+                                || nx >= FIELD_YOKO
+                                || ny >= FIELD_TATE
+                                || field[ny][nx]) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+                return true;
+            }
+
+            //テトロミノを回転させる関数
+            function rotate() {
+                let newTetromino = [];
+                for (let y = 0; y < TETROMINO_SIZE; y++) {
+                    newTetromino[y] = [];
+                    for (let x = 0; x < TETROMINO_SIZE; x++) {
+                        //90度回転
+                        newTetromino[y][x] = tetromino[TETROMINO_SIZE - x - 1][y];
+                    }
+                }
+
+                return newTetromino;
+            }
+
+            //テトロミノを落下させる関数
+            function dropTetromino() {
+                //動けるなら落下
+                if (checkMove(0, 1)) {
+                    tetromino_y++;
+
+                } else {
+                    //動けないならテトロミノ固定
+                    fixTetromino();
+                    checkLine();
+                    //固定後ランダムを初期化
+                    tetrominoType = Math.floor(Math.random() * (TETROMINO_TYPES.length - 1)) + 1;
+                    tetromino = TETROMINO_TYPES[tetrominoType];
+                    //固定後座標も初期化
+                    tetromino_x = START_X;
+                    tetromino_y = START_Y;
+
+                    //固定 → ラインチェック → 初期化 → 再び自動で落ちる前に（固定直後に）動けるか確認
+                    if (!checkMove(0, 0)) {
+                        //動けなかったらフラグを立てる
+                        gameOverFlg = true;
+                        drawGameOver();
+                        //ゲームオーバー表示後に他処理が走るためここで終了するよう修正
+                        return;
+                    }
+                }
+
+                //移動後再度描画
+                drawField();
+                drawTetromino();
+            }
+
+            //テトロミノをフィールドに固定する関数
+            function fixTetromino() {
+                for (let y = 0; y < TETROMINO_SIZE; y++) {
+                    for (let x = 0; x < TETROMINO_SIZE; x++) {
+                        if (tetromino[y][x]) {
+                            /*
+                            テスト用にブロック置いた時（field[5][8] = 1;）のように、現在のテトロミノの座標にブロックを置く
+                            この関数に入ってきている時点で、現在の座標以上動けないことが確定しているので、とりあえずブロックを置いてしまう
+                            テトロミノ色付けに伴いフィールドに固定するときに、1ではなくtetrominoTypeを設定するのは、
+                            field[tetromino_y + y][tetromino_x + x] = 1;だとその座標にテスト時と同じくブロック一つを置くだけだが、
+                            右辺をtetrominoTypeにすることで、そのテトロミノの形でブロックを固定してくれる
+                            */
+                            field[tetromino_y + y][tetromino_x + x] = tetrominoType;
+                        }
+                    }
+                }
+            }
+
+            //ラインが揃ったかチェックして消す関数
+            function checkLine() {
+                //チェック部
+                //テトロミノではなくただのブロックの座標を調べるのでフィールドのループを流用
+                for (let y = 0; y < FIELD_TATE; y++) {
+                    let flg = true;
+                    for (let x = 0; x < FIELD_YOKO; x++) {
+                        //ブロック描画されていないものがあれば（一列揃ってなければ）処理終了
+                        if (!field[y][x]) {
+                            flg = false;
+                            break;
+                        }
+                    }
+
+                    //消す部
+                    //trueのとき（field[y][x]==1のとき、ラインが揃ったとき）この処理入る
+                    if (flg) {
+                        lineCount++;
+
+                        //上のループのyを使用、yはこのif文内では必ず1になるためy>0、下を見るのでy--
+                        for (let ny = y; ny > 0; ny--) {
+                            for (let nx = 0; nx < FIELD_YOKO; nx++) {
+                                /*
+                                テスト用のブロック置いたときのコード流用
+                                現在の上の行のブロックをコピーしてくることで消せる
+                                */
+                                field[ny][nx] = field[ny - 1][nx];
+                            }
+                        }
+                    }
+                }
+
+                calculateScore(lineCount);
+                drawInfo();
+            }
+
+            //スコアを計算する関数
+            function calculateScore(lineCount) {
+                result = lineCount * 100;
+            }
+
+            //スコアと消したライン数の表示を行う関数
+            function drawInfo() {
+                //ここでメソットごと代入するとループ2回まわるので変数で代入
+                document.getElementById('score-count').innerHTML = result;
+                document.getElementById('line-count').innerHTML = lineCount;
+            }
+
+            //ゲームオーバーを表示する
+            function drawGameOver() {
+                let text = "☺︎GAME OVER☺︎";
+                let x = 7;
+                let y = CANVAS_SIZE_TATE / 2;
+                conText.font = "40px 'Osaka'";
+                //枠線の幅
+                conText.lineWidth = 4;
+                //枠線を描画
+                conText.strokeText(text, x, y);
+                //ゲームオーバーに色をつける
+                conText.fillStyle = "white";
+                //テキストを描画
+                conText.fillText(text, x, y);
+            }
+
+            //キーボード押下時の処理
+            //document.onkeydownで取得したKeyboardEventを引数eで受け取る
+            document.onkeydown = function (e) {
+                //ゲームオーバーフラグとリピートフラグが立ってたらキーボード使えなくする
+                if (gameOverFlg) return;
+                if (!repeatFlg) return;
+                switch (e.keyCode) {
+                    case 37: //左
+                        //移動前に移動できるかチェックを追加、引数に移動先の座標を渡す
+                        if (checkMove(-1, 0)) tetromino_x--;
+                        break;
+                    case 39: //右
+                        if (checkMove(1, 0)) tetromino_x++;
+                        break;
+                    case 40: //下
+                        if (checkMove(0, 1)) tetromino_y++;
+                        break;
+                    case 32: //スペース
+                        let newTetromino = rotate();
+                        /*
+                        テトロミノを回転させる関数で返される、
+                        回転後のテトロミノの座標newTetrominoをtetrominoに設定
+                        */
+                        if (checkMove(0, 0, newTetromino)) tetromino = newTetromino;
+                        break;
+                    case 16: //shiftキー
+                        //移動できないと判断されるとこまで下に落ちる
+                        while (checkMove(0, 1)) tetromino_y++;
+                        break;
+                }
+                //移動後再度描画
+                drawField();
+                drawTetromino();
+            }
+
+        </script>
+        <p>方向キー: 移動、　shiftキー: 一気に落とす、　スペースキー: 回転</p>
+    </div>
+</body>
+</html>

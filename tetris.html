@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris</title>
+</head>
+<body>
+    <canvas id="canvasId"></canvas>
+    <script>
+        let canvasId = document.getElementById('canvasId');
+        let context = canvasId.getContext('2d');
+
+        canvasId.width = 300;
+        canvasId.height = 600;
+        
+        canvasId.style.border = '4px solid #555';
+
+        let field = []
+        for(let y = 0; y < 20; y++) {
+            field[y] = [];
+            for(let x = 0; x < 10; x++) {
+                field[y][x] = 0;
+            }
+        }
+
+        let tetrominoType;
+        tetrominoType = Math.floor(Math.random() * 7)
+
+        context.fillRect(x, y, 30, 30);
+        conText.strokeRect(x, y, 30, 30);
+
+        conText.fillText('Game Over', x, y);
+        conText.strokeText('Game Over', x, y);
+
+        conText.fillStyle = 'white';
+        conText.strokeStyle = 'black';
+        conText.lineWidth = 4;
+        conText.clearRect(0, 0, 300, 600);
+
+        document.onkeydown = function (e) {
+        switch (e.keyCode) {
+            case 37: //左
+                if (checkMove(-1, 0)) tetromino_x--;
+                break;
+            case 39: //右
+                if (checkMove(1, 0)) tetromino_x++;
+                break;
+            case 40: //下
+                if (checkMove(0, 1)) tetromino_y++;
+                break;
+            case 32: //スペース（回転）
+                let newTetromino = 回転後のテトロミノ;
+                if (checkMove(0, 0, newTetromino)) 現在のテトロミノ = newTetromino;
+                break;
+            }
+        }
+        //移動できるかチェックを行う関数
+        function checkMove(mx, my, newTetromino) {
+            if (newTetromino == undefined) {
+                newTetromino = 現在のテトロミノ;
+            }
+            //具体的な処理は省略
+        }
+    </script>
+</body>
+</html>
