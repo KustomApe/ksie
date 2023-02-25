@@ -1,0 +1,19 @@
+body {
+	font-family: NotoSansJP;
+}
+
+nav#nav ul.navigation li {
+	font-weight: bold;
+}
+
+nav#nav ul.navigation li#home {
+	color: red;
+}
+
+.basic-font {
+	color: blue;
+}
+
+nav#nav ul.navigation li.basic-font {
+	color: green;
+}
